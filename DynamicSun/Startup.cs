@@ -30,6 +30,7 @@ namespace DynamicSun
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+            services.AddScoped<IDbService, DbService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

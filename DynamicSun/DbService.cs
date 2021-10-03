@@ -10,21 +10,31 @@ using System.Threading.Tasks;
 
 namespace DynamicSun
 {
-    public class DbHelper
+    public class DbService : IDbService
     {
-        private static WeatherContext _weatherContext;
-        public DbHelper(WeatherContext weatherContext)
+        private WeatherContext _weatherContext;
+        public DbService(WeatherContext weatherContext)
         {
             _weatherContext = weatherContext;
         }
 
-        public static void SaveWeatherInDb(IFormFile file , string fileName)
+        public List<string> GetArchives()
+        {
+            return _weatherContext.Archives.Select(a => a.Name).ToList();
+        }
+
+        public List<Weather> GetAllWeather()
+        {
+            return _weatherContext.Weathers.ToList();
+        }
+
+        public void SaveWeatherInDb(IFormFile file , string fileName)
         {
             XSSFWorkbook hssfwb;
-
+            _weatherContext.Archives.Add(new Archive() { Name = fileName });
             hssfwb = new XSSFWorkbook(file.OpenReadStream());
-
             int sheetNumber = hssfwb.NumberOfSheets;
+
             for(int i = 0; i < sheetNumber; i++)
             {
                 ISheet sheet = hssfwb.GetSheetAt(i);
@@ -57,12 +67,12 @@ namespace DynamicSun
                             weather.ArchiveName = fileName;
                             _weatherContext.Weathers.Add(weather);
                         }
-
                     }
                     catch(Exception e)
                     {
 
                     }
+                    _weatherContext.SaveChanges();
                 }
             }
         }

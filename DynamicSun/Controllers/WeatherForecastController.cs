@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DynamicSun.DynamicSun;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -7,33 +8,19 @@ using System.Threading.Tasks;
 
 namespace DynamicSun.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController: ControllerBase
+    public class WeatherController: ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        private readonly IDbService _dbService;
+        public WeatherController(IDbService dbService)
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
+            _dbService = dbService;
         }
 
-        [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet("GetAllWeather")]
+        [ProducesResponseType(typeof(List<Weather>), 200)]
+        public IActionResult GetWeather()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return Ok(_dbService.GetAllWeather());
         }
     }
 }
