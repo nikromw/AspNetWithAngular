@@ -7,7 +7,7 @@ import { FormControl, FormGroup } from '@angular/forms';
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
-    selectedFile: File = null;
+    selectedFile: File[];
   public  newFileForm: FormGroup;
   constructor(private http: HttpClient) { }
 
@@ -19,21 +19,22 @@ export class HomeComponent {
   }
 
   onSelectFile(fileInput: any) {
-    this.selectedFile = <File>fileInput.target.files[0];
+    this.selectedFile = <File[]>fileInput.target.files;
   }
 
   onSubmit(data) {
+    for (var i = 0; i < this.selectedFile.length; i++) {
+      const formData = new FormData();
+      formData.append('Name', data.Name);
+      formData.append('Content', this.selectedFile[i]);
 
-    const formData = new FormData();
-    formData.append('Name', data.Name);
-    formData.append('Content', this.selectedFile);
+      this.http.post('UploadFiles', formData)
+        .subscribe(res => {
 
-    this.http.post('UploadFiles', formData)
-      .subscribe(res => {
+          alert('Uploaded!!');
+        });
 
-        alert('Uploaded!!');
-      });
-
+    }
     this.newFileForm.reset();
   }
 }

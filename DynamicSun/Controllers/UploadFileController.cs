@@ -26,8 +26,9 @@ namespace DynamicSun.Controllers
         {
             if(fileModel.Content != null)
             {
-                _dbService.SaveWeatherInDb(fileModel.Content, fileModel.Name);
+                _dbService.SaveWeatherInDb(fileModel.Content, fileModel.Content.FileName);
             }
+
             return null;
         }
 
