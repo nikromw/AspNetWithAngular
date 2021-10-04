@@ -12,7 +12,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let forecast of forecasts">
-      <td>{{ forecast }}</td>
+      <td>{{ forecast }} <button (click)="loadArchive(forecast)">LoadArchive</button></td>
     </tr>
   </tbody>
 </table>

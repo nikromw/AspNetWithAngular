@@ -16,9 +16,9 @@ namespace DynamicSun.Controllers
             _dbService = dbService;
         }
 
-        [HttpGet("GetAllWeather")]
+        [HttpGet("GetAllWeather/{archiveName}")]
         [ProducesResponseType(typeof(List<Weather>), 200)]
-        public IActionResult GetWeather()
+        public IActionResult GetWeather(string archiveName)
         {
             return Ok(_dbService.GetAllWeather());
         }

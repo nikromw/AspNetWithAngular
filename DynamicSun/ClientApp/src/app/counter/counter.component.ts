@@ -1,5 +1,7 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-counter-component',
@@ -7,12 +9,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CounterComponent implements OnInit {
   public weatherArr: Weather[];
+  public archiveName: string;
   @Input() fromYear: number;
   @Input() toYear: number;
   @Input() fromMonth: number;
   @Input() toMonth: number;
+  private subscription: Subscription;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+  constructor(private http: HttpClient, private router: ActivatedRoute, @Inject('BASE_URL') baseUrl: string) {
+    this.subscription = router.params.subscribe(params => this.archiveName = params['archiveName']);
   }
 
   filterWeather() {
@@ -47,7 +52,7 @@ export class CounterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.get('GetAllWeather')
+    this.http.get(`GetAllWeather/${this.archiveName}`)
       .subscribe(
         (weather: Weather[]) => {
           this.weatherArr = [];

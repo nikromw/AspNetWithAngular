@@ -25,7 +25,6 @@ export class HomeComponent {
   onSubmit(data) {
     for (var i = 0; i < this.selectedFile.length; i++) {
       const formData = new FormData();
-      formData.append('Name', data.Name);
       formData.append('Content', this.selectedFile[i]);
 
       this.http.post('UploadFiles', formData)
