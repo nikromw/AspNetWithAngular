@@ -23,7 +23,7 @@ namespace DynamicSun.Controllers
             return Ok(_dbService.GetAllWeather());
         }
 
-        [HttpPost("FilterWeather")]
+        [HttpGet("FilterWeather")]
         [ProducesResponseType(typeof(List<Weather>), 200)]
         public IActionResult FilterWeather(
             [FromQuery] string fromYear,
