@@ -22,5 +22,17 @@ namespace DynamicSun.Controllers
         {
             return Ok(_dbService.GetAllWeather());
         }
+
+        [HttpPost("FilterWeather")]
+        [ProducesResponseType(typeof(List<Weather>), 200)]
+        public IActionResult FilterWeather(
+            [FromQuery] string fromYear,
+            [FromQuery] string toYear,
+            [FromQuery] string fromMonth,
+            [FromQuery] string toMonth)
+        {
+            var a = HttpContext.Request.Body;
+            return Ok(_dbService.FilterWeather(fromYear, toYear, fromMonth, toMonth));
+        }
     }
 }

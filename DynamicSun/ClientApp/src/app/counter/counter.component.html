@@ -6,7 +6,7 @@
 <div>
   <div>Введите месяц</div>
   от: <input [(ngModel)]="fromMonth" type="number"> до: <input [(ngModel)]="toMonth" type="number">
-  <button>Фильтровать</button>
+  <button (click)="filterWeather()">Фильтровать</button>
 </div>
 
   <table class='table table-striped' aria-labelledby="tableLabel">

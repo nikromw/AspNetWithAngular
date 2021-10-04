@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   selector: 'app-counter-component',
   templateUrl: './counter.component.html'
 })
-export class CounterComponent implements OnInit  {
+export class CounterComponent implements OnInit {
   public weatherArr: Weather[];
   @Input() fromYear: number;
   @Input() toYear: number;
@@ -13,6 +13,37 @@ export class CounterComponent implements OnInit  {
   @Input() toMonth: number;
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+  }
+
+  filterWeather() {
+    let settings = new Settings;
+    settings.fromYear =""+ this.fromYear;
+    settings.toYear = "" +  this.toYear;
+    settings.fromMonth = "" +  this.fromMonth;
+    settings.toMonth = "" +  this.toMonth;
+    this.http.get('FilterWeather?fromYear=' + this.fromYear +
+      "&toYear=" + this.fromYear +
+      "&fromMonth=" + this.fromMonth +
+      "&toMonth=" + this.toMonth).subscribe((weather: Weather[]) => {
+      this.weatherArr = [];
+      for (let w of weather) {
+        let tmpWeather = new Weather;
+        tmpWeather.archiveName = w.archiveName;
+        tmpWeather.date = w.date.split('T')[0];
+        tmpWeather.time = w.date.split('T')[1];
+        tmpWeather.temp = w.temp;
+        tmpWeather.wet = w.wet;
+        tmpWeather.dewPoint = w.dewPoint;
+        tmpWeather.pressure = w.pressure;
+        tmpWeather.windDirect = w.windDirect;
+        tmpWeather.windSpeed = w.windSpeed;
+        tmpWeather.cloudCover = w.cloudCover;
+        tmpWeather.lowLimitCloud = w.lowLimitCloud;
+        tmpWeather.horizontalVisibility = w.horizontalVisibility;
+        tmpWeather.weatherEffect = w.weatherEffect;
+        this.weatherArr.push(tmpWeather);
+      }
+    })
   }
 
   ngOnInit() {
@@ -42,19 +73,28 @@ export class CounterComponent implements OnInit  {
   }
 }
 
- export class Weather {
-   public id: number;
-   public archiveName: string;
-   public date: string;
-   public time: string;
-   public temp: number;
-   public wet: number;
-   public dewPoint: number;
-   public pressure: number;
-   public windDirect: string;
-   public windSpeed: number;
-   public cloudCover: number;
-   public lowLimitCloud: number;
-   public horizontalVisibility: string;
-   public weatherEffect: string;
+export class Weather {
+  public id: number;
+  public archiveName: string;
+  public date: string;
+  public time: string;
+  public temp: number;
+  public wet: number;
+  public dewPoint: number;
+  public pressure: number;
+  public windDirect: string;
+  public windSpeed: number;
+  public cloudCover: number;
+  public lowLimitCloud: number;
+  public horizontalVisibility: string;
+  public weatherEffect: string;
+}
+
+export class Settings {
+
+  public fromYear: string;
+  public toYear: string;
+  public fromMonth: string;
+  public toMonth: string;
+
 }

@@ -11,6 +11,7 @@ namespace DynamicSun
     {
         List<string> GetArchives();
         void SaveWeatherInDb(IFormFile file, string fileName);
-         List<Weather> GetAllWeather();
+        List<Weather> GetAllWeather();
+        List<Weather> FilterWeather(string yearFrom, string yearTo, string monthFrom, string monthTo);
     }
 }

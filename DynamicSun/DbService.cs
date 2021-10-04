@@ -28,6 +28,7 @@ namespace DynamicSun
             return _weatherContext.Weathers.ToList();
         }
 
+
         public void SaveWeatherInDb(IFormFile file , string fileName)
         {
             XSSFWorkbook hssfwb;
@@ -75,6 +76,13 @@ namespace DynamicSun
                     _weatherContext.SaveChanges();
                 }
             }
+        }
+
+        public List<Weather> FilterWeather(string yearFrom, string yearTo, string monthFrom, string monthTo)
+        {
+            return _weatherContext.Weathers.Where(w => ((DateTime)w.Date).Year >= Convert.ToInt32(yearFrom) 
+            && ((DateTime)w.Date).Year <= Convert.ToInt32(yearFrom) && ((DateTime)w.Date).Month >= Convert.ToInt32(monthFrom)
+            && ((DateTime)w.Date).Month <= Convert.ToInt32(monthTo)).ToList();
         }
     }
 }
