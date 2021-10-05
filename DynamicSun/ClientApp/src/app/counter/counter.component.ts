@@ -8,9 +8,9 @@ import { Subscription } from 'rxjs';
   templateUrl: './counter.component.html'
 })
 export class CounterComponent implements OnInit {
-  public weatherArr: Weather[];
-  public archiveName: string;
-  public index: number;
+  public weatherArr: Weather[] = [];
+  public archiveName: string[];
+  public index: number ;
   @Input() fromYear: number = 0;
   @Input() toYear: number = 2147483647;
   @Input() fromMonth: number = 1;
@@ -18,10 +18,10 @@ export class CounterComponent implements OnInit {
   private subscription: Subscription;
 
   constructor(private http: HttpClient, private router: ActivatedRoute, @Inject('BASE_URL') baseUrl: string) {
-    this.subscription = router.queryParams.subscribe(params => this.archiveName = params['archiveName']);
+    this.subscription = router.queryParams.subscribe(params => this.archiveName = params['archives']);
   }
 
-  getWeatherByFilter(offset: number ) {
+  getWeatherByFilter(offset: number) {
     if (this.fromYear == undefined || this.toYear == undefined || this.fromYear < 0 || this.toYear < 0) {
       alert("Поля фильтра года не заполнены!");
     }
@@ -54,6 +54,7 @@ export class CounterComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.index = 0;
     this.getWeatherByFilter(0);
   }
 }
@@ -73,13 +74,4 @@ export class Weather {
   public lowLimitCloud: number;
   public horizontalVisibility: string;
   public weatherEffect: string;
-}
-
-export class Settings {
-
-  public fromYear: string;
-  public toYear: string;
-  public fromMonth: string;
-  public toMonth: string;
-
 }

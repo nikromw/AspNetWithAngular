@@ -8,12 +8,18 @@ import { Router } from '@angular/router';
 })
 export class FetchDataComponent implements OnInit {
   public forecasts: string[];
+  public selectedArchives: string[] = [];
 
   constructor(private http: HttpClient, private router: Router, @Inject('BASE_URL') baseUrl: string) {
   }
 
-  loadArchive(archiveName: string) {
-    this.router.navigate(['/counter'], { queryParams: { archiveName } });
+  selectArchive(archiveName: string) {
+    this.selectedArchives.push(archiveName);
+  }
+
+  loadArchive() {
+    let archives = this.selectedArchives;
+    this.router.navigate(['/counter'], { queryParams: { archives } });
   }
 
   ngOnInit() {

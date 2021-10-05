@@ -26,7 +26,7 @@ namespace DynamicSun.Controllers
             [FromQuery] int fromMonth,
             [FromQuery] int toMonth)
         {
-            return Ok(_dbService.GetWeatherByFilter(archiveName, index, fromYear, toYear, fromMonth, toMonth));
+            return Ok(_dbService.GetWeatherByFilter(archiveName.Split(',').ToList(), index, fromYear, toYear, fromMonth, toMonth));
         }
     }
 }

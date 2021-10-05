@@ -42,7 +42,7 @@ namespace DynamicSun
             }
             else
             {
-                _weatherContext.Archives.Add( new Archive() { Name = archiveName });
+                _weatherContext.Archives.Add(new Archive() { Name = archiveName });
             }
 
             for(int i = 0; i < sheetNumber; i++)
@@ -88,9 +88,9 @@ namespace DynamicSun
             }
         }
 
-        public List<Weather> GetWeatherByFilter(string archive, int index, int yearFrom, int yearTo, int monthFrom, int monthTo)
+        public List<Weather> GetWeatherByFilter(List<string> archive, int index, int yearFrom, int yearTo, int monthFrom, int monthTo)
         {
-            return _weatherContext.Weathers.Where(w => w.ArchiveName == archive && ((DateTime)w.Date).Year >= yearFrom
+            return _weatherContext.Weathers.Where(w => archive.Contains(w.ArchiveName) && ((DateTime)w.Date).Year >= yearFrom
              && ((DateTime)w.Date).Year <= yearTo && ((DateTime)w.Date).Month >= monthFrom
              && ((DateTime)w.Date).Month <= monthTo).Skip(index * 10).Take(10).ToList();
         }
