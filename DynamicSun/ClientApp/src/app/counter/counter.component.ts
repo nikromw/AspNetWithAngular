@@ -21,7 +21,7 @@ export class CounterComponent implements OnInit {
     this.subscription = router.queryParams.subscribe(params => this.archiveName = params['archives']);
   }
 
-  getWeatherByFilter(offset: number) {
+  getWeatherByFilter(offset: number = 0) {
     if (this.fromYear == undefined || this.toYear == undefined || this.fromYear < 0 || this.toYear < 0) {
       alert("Поля фильтра года не заполнены!");
     }
