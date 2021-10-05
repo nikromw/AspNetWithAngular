@@ -3,11 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { LoadFiles } from './loadFiles/loadFile.component';
-import { ArchiveComponent } from './archiveLoad/archive-data.component';
+import { ArchiveComponent } from './selectArchives/archive-data.component';
 import { WeatherTableComponent } from './weather/weather.component';
 
 @NgModule({
@@ -26,7 +25,7 @@ import { WeatherTableComponent } from './weather/weather.component';
     RouterModule.forRoot([
       { path: '', component: LoadFiles, pathMatch: 'full' },
       { path: 'weather', component: WeatherTableComponent },
-      { path: 'fetch-data', component: ArchiveComponent },
+      { path: 'archive-select', component: ArchiveComponent },
     ])
   ],
   providers: [],

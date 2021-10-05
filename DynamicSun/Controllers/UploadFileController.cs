@@ -35,9 +35,6 @@ namespace DynamicSun.Controllers
 
         [HttpGet("GetArchives")]
         [ProducesResponseType(typeof(List<string>), 200)]
-        public IActionResult GetArchives()
-        {
-            return Ok(_dbService.GetArchives());
-        }
+        public IActionResult GetArchives() => Ok(_dbService.GetArchives());
     }
 }

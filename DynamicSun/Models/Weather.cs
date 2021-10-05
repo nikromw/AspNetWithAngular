@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 
 namespace DynamicSun
 {
-    using System;
-
     namespace DynamicSun
     {
         public class Weather

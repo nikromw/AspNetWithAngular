@@ -16,7 +16,7 @@ namespace DynamicSun.Controllers
             _dbService = dbService;
         }
 
-        [HttpGet("GetAllWeather/{archiveName}/{index}")]
+        [HttpGet("GetWeather/{archiveName}/{index}")]
         [ProducesResponseType(typeof(List<Weather>), 200)]
         public IActionResult GetWeather(
             string archiveName,
@@ -26,7 +26,10 @@ namespace DynamicSun.Controllers
             [FromQuery] int fromMonth,
             [FromQuery] int toMonth)
         {
-            return Ok(_dbService.GetWeatherByFilter(archiveName.Split(',').ToList(), index, fromYear, toYear, fromMonth, toMonth));
+            return Ok(_dbService
+                .GetWeatherByFilter(
+                archiveName.Split(',').ToList(),
+                index, fromYear, toYear, fromMonth, toMonth));
         }
     }
 }

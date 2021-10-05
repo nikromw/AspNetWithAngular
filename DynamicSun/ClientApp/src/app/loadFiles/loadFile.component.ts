@@ -24,16 +24,18 @@ export class LoadFiles {
 
   onSubmit(data) {
     alert("Началась загрузка файлов.")
+
     for (var i = 0; i < this.selectedFile.length; i++) {
       const formData = new FormData();
+
       formData.append('Content', this.selectedFile[i]);
 
       this.http.post('UploadFiles', formData)
         .subscribe((result: string[]) => {
           alert(result);
         });
-
     }
+
     this.newFileForm.reset();
   }
 }

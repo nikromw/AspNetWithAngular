@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -15,27 +15,37 @@ export class WeatherTableComponent implements OnInit {
   @Input() toYear: number = (new Date()).getFullYear();
   @Input() fromMonth: number = 1;
   @Input() toMonth: number = 12;
-  private subscription: Subscription;
 
   constructor(private http: HttpClient, private router: ActivatedRoute, @Inject('BASE_URL') baseUrl: string) {
-    this.subscription = router.queryParams.subscribe(params => this.archiveName = params['archives']);
+    router.queryParams.subscribe(params => this.archiveName = params['archives']);
   }
 
   getWeatherByFilter(offset: number = 0) {
-    if (this.fromYear == undefined || this.toYear == undefined || this.fromYear < 0 || this.toYear < 0) {
+    if (this.fromYear == undefined
+      || this.toYear == undefined
+      || this.fromYear < 0
+      || this.toYear < 0) {
       alert("Поля фильтра года не заполнены!");
-    }
-    else if (this.fromMonth <= 0 || this.toMonth >= 13) {
+    } else if (this.fromMonth <= 0 || this.toMonth >= 13) {
       alert("Поля фильтра месяца имеют не верные значения!");
     } else {
       this.index += offset;
-      if (this.index < 0) this.index = 0;
-      this.http.get(`GetAllWeather/${this.archiveName}/${this.index}?fromYear=${this.fromYear}&toYear=${this.toYear}&fromMonth=${this.fromMonth}&toMonth=${this.toMonth}`)
+
+      if (this.index < 0) {
+        this.index = 0;
+      }
+
+      this.http.get(`GetWeather/${this.archiveName}/${this.index}?fromYear=${this.fromYear}&toYear=${this.toYear}&fromMonth=${this.fromMonth}&toMonth=${this.toMonth}`)
         .subscribe((weather: Weather[]) => {
           this.weatherArr = [];
-          if (weather === null) this.index -= 1;
+
+          if (weather === null) {
+            this.index -= 1;
+          }
+
           for (let w of weather) {
             let tmpWeather = new Weather;
+
             tmpWeather.archiveName = w.archiveName;
             tmpWeather.date = w.date.split('T')[0];
             tmpWeather.time = w.date.split('T')[1];
@@ -49,6 +59,7 @@ export class WeatherTableComponent implements OnInit {
             tmpWeather.lowLimitCloud = w.lowLimitCloud;
             tmpWeather.horizontalVisibility = w.horizontalVisibility;
             tmpWeather.weatherEffect = w.weatherEffect;
+
             this.weatherArr.push(tmpWeather);
           }
         })

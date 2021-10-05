@@ -1,7 +1,7 @@
-<h1>Weather forecast</h1>
+<h1>Прогноз погоды</h1>
 <div>
   <div>Введите год</div>
-  от: <input [(ngModel)]="fromYear" value="0" type="number" > до: <input value="0" [(ngModel)]="toYear" type="number">
+  от: <input [(ngModel)]="fromYear" value="0" type="number"> до: <input value="0" [(ngModel)]="toYear" type="number">
 </div>
 <div>
   <div>Введите месяц</div>
@@ -9,39 +9,40 @@
   <button (click)="getWeatherByFilter()">Фильтровать</button>
 </div>
 
-  <table class='table table-striped' width="90%" aria-labelledby="tableLabel">
-    <thead>
-      <tr>
-        <td>Дата</td>
-        <td>Время</td>
-        <td>T</td>
-        <td>Влажность</td>
-        <td>Точка росы</td>
-        <td>Давление</td>
-        <td>Направление ветра</td>
-        <td>Скорость ветра</td>
-        <td>Облачность</td>
-        <td>Нижняя граница облачность</td>
-        <td>Горизонтальная видимость</td>
-        <td>Природные явления</td>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let w of weatherArr">
-        <td>{{ w.date }}</td>
-        <td>{{ w.time }}</td>
-        <td>{{ w.temp }}</td>
-        <td>{{ w.wet }}</td>
-        <td>{{ w.dewPoint }}</td>
-        <td>{{ w.pressure }}</td>
-        <td>{{ w.windDirect }}</td>
-        <td>{{ w.windSpeed }}</td>
-        <td>{{ w.cloudCover }}</td>
-        <td>{{ w.lowLimitCloud }}</td>
-        <td>{{ w.horizontalVisibility}}</td>
-        <td>{{ w.weatherEffect}}</td>
-      </tr>
-      <button (click)="getWeatherByFilter(-1)"><</button>
-      <button (click)="getWeatherByFilter(+1)">></button>
-    </tbody>
-  </table>
+<table class='table table-striped' width="90%" aria-labelledby="tableLabel">
+  <thead>
+    <tr>
+      <td>Дата</td>
+      <td>Время</td>
+      <td>T</td>
+      <td>Влажность</td>
+      <td>Точка росы</td>
+      <td>Давление</td>
+      <td>Направление ветра</td>
+      <td>Скорость ветра</td>
+      <td>Облачность</td>
+      <td>Нижняя граница облачность</td>
+      <td>Горизонтальная видимость</td>
+      <td>Природные явления</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let w of weatherArr">
+      <td>{{ w.date }}</td>
+      <td>{{ w.time }}</td>
+      <td>{{ w.temp }}</td>
+      <td>{{ w.wet }}</td>
+      <td>{{ w.dewPoint }}</td>
+      <td>{{ w.pressure }}</td>
+      <td>{{ w.windDirect }}</td>
+      <td>{{ w.windSpeed }}</td>
+      <td>{{ w.cloudCover }}</td>
+      <td>{{ w.lowLimitCloud }}</td>
+      <td>{{ w.horizontalVisibility}}</td>
+      <td>{{ w.weatherEffect}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<button (click)="getWeatherByFilter(-1)"><</button>
+<button (click)="getWeatherByFilter(+1)">></button>

@@ -1,0 +1,16 @@
+<h1>Список архивов для загрузки данных:</h1>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="archives">
+  <thead>
+    <tr>
+      <th>Название архива</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let archive of archives">
+      <td><input type="radio" (click)="selectArchive(archive)" /> {{ archive }} </td>
+    </tr>
+  </tbody>
+</table>
+
+<button (click)="loadArchive()">Загрузить данные</button>
