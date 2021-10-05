@@ -10,7 +10,7 @@ namespace DynamicSun
     public interface IDbService
     {
         List<string> GetArchives();
-        void SaveWeatherInDb(IFormFile file, string fileName);
+        List<string> SaveWeatherInDb(IFormFile file, string fileName);
         List<Weather> GetWeatherByFilter(List<string> archive,int index, int yearFrom, int yearTo, int monthFrom, int monthTo);
     }
 }

@@ -14,7 +14,7 @@ export class HomeComponent {
   ngOnInit() {
     this.newFileForm = new FormGroup({
       Name: new FormControl(null),
-      TileImage: new FormControl(null)
+      Files: new FormControl(null)
     });
   }
 
@@ -28,9 +28,8 @@ export class HomeComponent {
       formData.append('Content', this.selectedFile[i]);
 
       this.http.post('UploadFiles', formData)
-        .subscribe(res => {
-
-          alert('Uploaded!!');
+        .subscribe((result: string[]) => {
+          alert(result);
         });
 
     }

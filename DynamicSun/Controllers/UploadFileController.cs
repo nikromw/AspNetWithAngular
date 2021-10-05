@@ -22,14 +22,15 @@ namespace DynamicSun.Controllers
         }
 
         [HttpPost("UploadFiles")]
+        [ProducesResponseType(typeof(List<string>), 200)]
         public IActionResult PostFile([FromForm] FileModel fileModel)
         {
             if(fileModel.Content != null)
             {
-                _dbService.SaveWeatherInDb(fileModel.Content, fileModel.Content.FileName);
+                return Ok(_dbService.SaveWeatherInDb(fileModel.Content, fileModel.Content.FileName));
             }
 
-            return null;
+            return Ok("Files loaded.");
         }
 
         [HttpGet("GetArchives")]

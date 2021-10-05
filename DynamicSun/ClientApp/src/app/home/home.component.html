@@ -1,12 +1,13 @@
 <form [formGroup]="newFileForm" (ngSubmit)="onSubmit(newFileForm.value)">
-
-  <div>
-    <label for="TileImage">
-      Files 
-    </label>
-    <input type="file" multiple formControlName="TileImage" (change)="onSelectFile($event)">
+  <div class="load_files">
+    <div>
+      <label for="Files">
+        Files
+      </label>
+      <input type="file" multiple formControlName="TileImage" (change)="onSelectFile($event)">
+    </div>
+    <div>
+      <button type="submit">Load files</button>
+    </div>
   </div>
-
-  <button type="submit">Create Blog</button>
-
 </form>
