@@ -11,8 +11,8 @@ export class CounterComponent implements OnInit {
   public weatherArr: Weather[];
   public archiveName: string;
   public index: number;
-  @Input() fromYear: number;
-  @Input() toYear: number;
+  @Input() fromYear: number = 0;
+  @Input() toYear: number = 2147483647;
   @Input() fromMonth: number = 1;
   @Input() toMonth: number = 12;
   private subscription: Subscription;
@@ -22,7 +22,7 @@ export class CounterComponent implements OnInit {
   }
 
   getWeatherByFilter(offset: number ) {
-    if (this.fromYear == undefined || this.toYear == undefined) {
+    if (this.fromYear == undefined || this.toYear == undefined || this.fromYear < 0 || this.toYear < 0) {
       alert("Поля фильтра года не заполнены!");
     }
     else if (this.fromMonth <= 0 || this.toMonth >= 13) {
@@ -54,9 +54,6 @@ export class CounterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.index = 0;
-    this.fromYear = 0;
-    this.toYear = 2147483647;
     this.getWeatherByFilter(0);
   }
 }

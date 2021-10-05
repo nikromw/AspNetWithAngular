@@ -82,16 +82,10 @@ namespace DynamicSun
                     {
 
                     }
+
                     _weatherContext.SaveChanges();
                 }
             }
-        }
-
-        public List<Weather> FilterWeather(int yearFrom, int yearTo, int monthFrom, int monthTo)
-        {
-            return _weatherContext.Weathers.Where(w => ((DateTime)w.Date).Year >= yearFrom
-            && ((DateTime)w.Date).Year <= yearFrom && ((DateTime)w.Date).Month >= monthFrom
-            && ((DateTime)w.Date).Month <= monthTo).ToList();
         }
 
         public List<Weather> GetWeatherByFilter(string archive, int index, int yearFrom, int yearTo, int monthFrom, int monthTo)
