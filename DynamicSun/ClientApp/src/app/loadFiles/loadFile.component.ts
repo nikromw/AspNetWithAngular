@@ -4,9 +4,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
+  templateUrl: './loadFile.component.html',
 })
-export class HomeComponent {
+export class LoadFiles {
     selectedFile: File[];
   public  newFileForm: FormGroup;
   constructor(private http: HttpClient) { }
@@ -23,6 +23,7 @@ export class HomeComponent {
   }
 
   onSubmit(data) {
+    alert("Началась загрузка файлов.")
     for (var i = 0; i < this.selectedFile.length; i++) {
       const formData = new FormData();
       formData.append('Content', this.selectedFile[i]);

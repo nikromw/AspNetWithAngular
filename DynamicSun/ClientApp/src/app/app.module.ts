@@ -6,17 +6,17 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { LoadFiles } from './loadFiles/loadFile.component';
+import { ArchiveComponent } from './archiveLoad/archive-data.component';
+import { WeatherTableComponent } from './weather/weather.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
-    CounterComponent,
-    FetchDataComponent
+    LoadFiles,
+    WeatherTableComponent,
+    ArchiveComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -24,9 +24,9 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
+      { path: '', component: LoadFiles, pathMatch: 'full' },
+      { path: 'weather', component: WeatherTableComponent },
+      { path: 'fetch-data', component: ArchiveComponent },
     ])
   ],
   providers: [],

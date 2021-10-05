@@ -1,11 +1,11 @@
 <h1>Weather forecast</h1>
 <div>
   <div>Введите год</div>
-  от: <input [(ngModel)]="fromYear" type="number" > до: <input [(ngModel)]="toYear" type="number">
+  от: <input [(ngModel)]="fromYear" value="0" type="number" > до: <input value="0" [(ngModel)]="toYear" type="number">
 </div>
 <div>
   <div>Введите месяц</div>
-  от: <input [(ngModel)]="fromMonth" type="number"> до: <input [(ngModel)]="toMonth" type="number">
+  от: <input [(ngModel)]="fromMonth" value="0" type="number"> до: <input value="0" [(ngModel)]="toMonth" type="number">
   <button (click)="getWeatherByFilter()">Фильтровать</button>
 </div>
 

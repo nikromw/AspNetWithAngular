@@ -1,10 +1,7 @@
 <form [formGroup]="newFileForm" (ngSubmit)="onSubmit(newFileForm.value)">
   <div class="load_files">
     <div>
-      <label for="Files">
-        Files
-      </label>
-      <input type="file" multiple formControlName="TileImage" (change)="onSelectFile($event)">
+      <input type="file" multiple (change)="onSelectFile($event)">
     </div>
     <div>
       <button type="submit">Load files</button>

@@ -32,6 +32,7 @@ namespace DynamicSun
         public List<string> SaveWeatherInDb(IFormFile file, string archiveName)
         {
             List<string> returnVal = new List<string>();
+
             try
             {
                 XSSFWorkbook hssfwb;
@@ -59,7 +60,6 @@ namespace DynamicSun
                                 {
                                     Weather weather = new Weather();
                                     var RowElements = sheet.GetRow(row).Cells;
-
                                     weather.Date = new DateTime(Convert.ToInt32(RowElements[0].ToString().Split('.')[2]),
                                                                 Convert.ToInt32(RowElements[0].ToString().Split('.')[1]),
                                                                 Convert.ToInt32(RowElements[0].ToString().Split('.')[0]),
@@ -80,19 +80,18 @@ namespace DynamicSun
                                     _weatherContext.Weathers.Add(weather);
                                 }
                             }
-                            catch(Exception e)
-                            {
-                                
-                            }
+                            catch(Exception e){}
 
                             _weatherContext.SaveChanges();
                         }
                     }
                 }
-            } catch(Exception ex)
+            }
+            catch(Exception ex)
             {
                 returnVal.Add($"Невозможно прочитать файл {archiveName}.");
             }
+
             return returnVal;
         }
 
@@ -101,9 +100,9 @@ namespace DynamicSun
             var weathers = _weatherContext.Weathers.Where(w => archive.Contains(w.ArchiveName) && ((DateTime)w.Date).Year >= yearFrom
             && ((DateTime)w.Date).Year <= yearTo && ((DateTime)w.Date).Month >= monthFrom
             && ((DateTime)w.Date).Month <= monthTo);
-            
+
             if(index * 10 < weathers.Count())
-            return weathers.Skip(index * 10).Take(10).ToList();
+                return weathers.Skip(index * 10).Take(10).ToList();
 
             return null;
         }

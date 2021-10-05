@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-fetch-data',
-  templateUrl: './fetch-data.component.html'
+  selector: 'app-archive-data',
+  templateUrl: './archive-data.component.html'
 })
-export class FetchDataComponent implements OnInit {
-  public forecasts: string[];
+export class ArchiveComponent implements OnInit {
+  public archives: string[];
   public selectedArchives: string[] = [];
 
   constructor(private http: HttpClient, private router: Router, @Inject('BASE_URL') baseUrl: string) {
@@ -19,13 +19,13 @@ export class FetchDataComponent implements OnInit {
 
   loadArchive() {
     let archives = this.selectedArchives;
-    this.router.navigate(['/counter'], { queryParams: { archives } });
+    this.router.navigate(['/weather'], { queryParams: { archives } });
   }
 
   ngOnInit() {
     this.http.get('GetArchives')
       .subscribe(
-        (archives: string[]) => this.forecasts = archives
+        (archives: string[]) => this.archives = archives
       );
   }
 }

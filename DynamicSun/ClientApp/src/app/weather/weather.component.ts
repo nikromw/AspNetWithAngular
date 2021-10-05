@@ -4,15 +4,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-counter-component',
-  templateUrl: './counter.component.html'
+  selector: 'app-weather-component',
+  templateUrl: './weather.component.html'
 })
-export class CounterComponent implements OnInit {
+export class WeatherTableComponent implements OnInit {
   public weatherArr: Weather[] = [];
   public archiveName: string[];
   public index: number ;
   @Input() fromYear: number = 0;
-  @Input() toYear: number = 2147483647;
+  @Input() toYear: number = (new Date()).getFullYear();
   @Input() fromMonth: number = 1;
   @Input() toMonth: number = 12;
   private subscription: Subscription;

@@ -25,6 +25,5 @@ namespace DynamicSun
             public string HorizontalVisibility { get; set; }
             public string WeatherEffect { get; set; }
         }
-
     }
 }

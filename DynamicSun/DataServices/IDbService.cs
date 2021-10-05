@@ -11,6 +11,6 @@ namespace DynamicSun
     {
         List<string> GetArchives();
         List<string> SaveWeatherInDb(IFormFile file, string fileName);
-        List<Weather> GetWeatherByFilter(List<string> archive,int index, int yearFrom, int yearTo, int monthFrom, int monthTo);
+        List<Weather> GetWeatherByFilter(List<string> archive, int index, int yearFrom, int yearTo, int monthFrom, int monthTo);
     }
 }

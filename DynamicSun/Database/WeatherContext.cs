@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DynamicSun
 {
-    public class WeatherContext : DbContext
+    public class WeatherContext: DbContext
     {
         public WeatherContext(DbContextOptions<WeatherContext> options) : base(options)
         {
