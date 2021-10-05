@@ -13,7 +13,7 @@ export class FetchDataComponent implements OnInit {
   }
 
   loadArchive(archiveName: string) {
-    this.router.navigate(['/counter', archiveName]);
+    this.router.navigate(['/counter'], { queryParams: { archiveName } });
   }
 
   ngOnInit() {

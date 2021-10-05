@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DynamicSun
 {
-    public class DbService : IDbService
+    public class DbService: IDbService
     {
         private WeatherContext _weatherContext;
         public DbService(WeatherContext weatherContext)
@@ -23,18 +23,27 @@ namespace DynamicSun
             return _weatherContext.Archives.Select(a => a.Name).ToList();
         }
 
-        public List<Weather> GetAllWeather()
+        public List<Weather> GetWeatherByArchive(string archive)
         {
-            return _weatherContext.Weathers.ToList();
+            return _weatherContext.Weathers.Where(w => w.ArchiveName == archive).ToList();
         }
 
 
-        public void SaveWeatherInDb(IFormFile file , string fileName)
+        public void SaveWeatherInDb(IFormFile file, string archiveName)
         {
             XSSFWorkbook hssfwb;
-            _weatherContext.Archives.Add(new Archive() { Name = fileName });
             hssfwb = new XSSFWorkbook(file.OpenReadStream());
             int sheetNumber = hssfwb.NumberOfSheets;
+
+
+            if(_weatherContext.Archives.Count(a => a.Name == archiveName) > 0)
+            {
+                throw (new Exception("Такой архив уже был загружен"));
+            }
+            else
+            {
+                _weatherContext.Archives.Add( new Archive() { Name = archiveName });
+            }
 
             for(int i = 0; i < sheetNumber; i++)
             {
@@ -65,7 +74,7 @@ namespace DynamicSun
                             weather.LowLimitCloud = Convert.ToDouble(RowElements[9].CellType == CellType.String ? RowElements[9].RichStringCellValue.String == " " ? null : RowElements[7].RichStringCellValue.String : RowElements[9].NumericCellValue.ToString());
                             weather.HorizontalVisibility = RowElements[10].ToString();
                             weather.WeatherEffect = RowElements.ElementAtOrDefault(11) == null ? "" : RowElements[11].StringCellValue;
-                            weather.ArchiveName = fileName;
+                            weather.ArchiveName = archiveName;
                             _weatherContext.Weathers.Add(weather);
                         }
                     }
@@ -78,11 +87,18 @@ namespace DynamicSun
             }
         }
 
-        public List<Weather> FilterWeather(string yearFrom, string yearTo, string monthFrom, string monthTo)
+        public List<Weather> FilterWeather(int yearFrom, int yearTo, int monthFrom, int monthTo)
         {
-            return _weatherContext.Weathers.Where(w => ((DateTime)w.Date).Year >= Convert.ToInt32(yearFrom) 
-            && ((DateTime)w.Date).Year <= Convert.ToInt32(yearFrom) && ((DateTime)w.Date).Month >= Convert.ToInt32(monthFrom)
-            && ((DateTime)w.Date).Month <= Convert.ToInt32(monthTo)).ToList();
+            return _weatherContext.Weathers.Where(w => ((DateTime)w.Date).Year >= yearFrom
+            && ((DateTime)w.Date).Year <= yearFrom && ((DateTime)w.Date).Month >= monthFrom
+            && ((DateTime)w.Date).Month <= monthTo).ToList();
+        }
+
+        public List<Weather> GetWeatherByFilter(string archive, int index, int yearFrom, int yearTo, int monthFrom, int monthTo)
+        {
+            return _weatherContext.Weathers.Where(w => w.ArchiveName == archive && ((DateTime)w.Date).Year >= yearFrom
+             && ((DateTime)w.Date).Year <= yearTo && ((DateTime)w.Date).Month >= monthFrom
+             && ((DateTime)w.Date).Month <= monthTo).Skip(index * 10).Take(10).ToList();
         }
     }
 }

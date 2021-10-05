@@ -10,51 +10,27 @@ import { Subscription } from 'rxjs';
 export class CounterComponent implements OnInit {
   public weatherArr: Weather[];
   public archiveName: string;
+  public index: number;
   @Input() fromYear: number;
   @Input() toYear: number;
-  @Input() fromMonth: number;
-  @Input() toMonth: number;
+  @Input() fromMonth: number = 1;
+  @Input() toMonth: number = 12;
   private subscription: Subscription;
 
   constructor(private http: HttpClient, private router: ActivatedRoute, @Inject('BASE_URL') baseUrl: string) {
-    this.subscription = router.params.subscribe(params => this.archiveName = params['archiveName']);
+    this.subscription = router.queryParams.subscribe(params => this.archiveName = params['archiveName']);
   }
 
-  filterWeather() {
-    let settings = new Settings;
-    settings.fromYear =""+ this.fromYear;
-    settings.toYear = "" +  this.toYear;
-    settings.fromMonth = "" +  this.fromMonth;
-    settings.toMonth = "" +  this.toMonth;
-    this.http.get('FilterWeather?fromYear=' + this.fromYear +
-      "&toYear=" + this.fromYear +
-      "&fromMonth=" + this.fromMonth +
-      "&toMonth=" + this.toMonth).subscribe((weather: Weather[]) => {
-      this.weatherArr = [];
-      for (let w of weather) {
-        let tmpWeather = new Weather;
-        tmpWeather.archiveName = w.archiveName;
-        tmpWeather.date = w.date.split('T')[0];
-        tmpWeather.time = w.date.split('T')[1];
-        tmpWeather.temp = w.temp;
-        tmpWeather.wet = w.wet;
-        tmpWeather.dewPoint = w.dewPoint;
-        tmpWeather.pressure = w.pressure;
-        tmpWeather.windDirect = w.windDirect;
-        tmpWeather.windSpeed = w.windSpeed;
-        tmpWeather.cloudCover = w.cloudCover;
-        tmpWeather.lowLimitCloud = w.lowLimitCloud;
-        tmpWeather.horizontalVisibility = w.horizontalVisibility;
-        tmpWeather.weatherEffect = w.weatherEffect;
-        this.weatherArr.push(tmpWeather);
-      }
-    })
-  }
-
-  ngOnInit() {
-    this.http.get(`GetAllWeather/${this.archiveName}`)
-      .subscribe(
-        (weather: Weather[]) => {
+  getWeatherByFilter(offset: number ) {
+    if (this.fromYear == undefined || this.toYear == undefined) {
+      alert("Поля фильтра года не заполнены!");
+    }
+    else if (this.fromMonth <= 0 || this.toMonth >= 13) {
+      alert("Поля фильтра месяца имеют не верные значения!");
+    } else {
+      this.index += offset;
+      this.http.get(`GetAllWeather/${this.archiveName}/${this.index}?fromYear=${this.fromYear}&toYear=${this.toYear}&fromMonth=${this.fromMonth}&toMonth=${this.toMonth}`)
+        .subscribe((weather: Weather[]) => {
           this.weatherArr = [];
           for (let w of weather) {
             let tmpWeather = new Weather;
@@ -73,8 +49,15 @@ export class CounterComponent implements OnInit {
             tmpWeather.weatherEffect = w.weatherEffect;
             this.weatherArr.push(tmpWeather);
           }
-        }
-      );
+        })
+    }
+  }
+
+  ngOnInit() {
+    this.index = 0;
+    this.fromYear = 0;
+    this.toYear = 2147483647;
+    this.getWeatherByFilter(0);
   }
 }
 

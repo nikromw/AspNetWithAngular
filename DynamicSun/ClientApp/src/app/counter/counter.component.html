@@ -41,5 +41,7 @@
         <td>{{ w.horizontalVisibility}}</td>
         <td>{{ w.weatherEffect}}</td>
       </tr>
+      <button (click)="getWeatherByFilter(-1)"><</button>
+      <button (click)="getWeatherByFilter(+1)">></button>
     </tbody>
   </table>
