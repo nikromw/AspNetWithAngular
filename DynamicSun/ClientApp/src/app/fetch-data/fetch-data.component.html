@@ -13,8 +13,8 @@
   <tbody>
     <tr *ngFor="let forecast of forecasts">
       <td>{{ forecast }} </td>
-      <button (click)="selectArchive(forecast)"> Select archive</button>
+      <input type="radio" (click)="selectArchive(forecast)"/> Select archive
     </tr>
   </tbody>
-  <button (click)="loadArchive()"> Select archive</button>
+  <button (click)="loadArchive(forecast)"> Select archive</button>
 </table>

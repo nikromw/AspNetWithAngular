@@ -29,9 +29,11 @@ export class CounterComponent implements OnInit {
       alert("Поля фильтра месяца имеют не верные значения!");
     } else {
       this.index += offset;
+      if (this.index < 0) this.index = 0;
       this.http.get(`GetAllWeather/${this.archiveName}/${this.index}?fromYear=${this.fromYear}&toYear=${this.toYear}&fromMonth=${this.fromMonth}&toMonth=${this.toMonth}`)
         .subscribe((weather: Weather[]) => {
           this.weatherArr = [];
+          if (weather === null) this.index -= 1;
           for (let w of weather) {
             let tmpWeather = new Weather;
             tmpWeather.archiveName = w.archiveName;
