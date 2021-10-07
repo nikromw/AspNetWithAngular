@@ -35,7 +35,9 @@ export class WeatherTableComponent implements OnInit {
         this.index = 0;
       }
 
-      this.http.get(`GetWeather/${this.archiveName}/${this.index}?fromYear=${this.fromYear}&toYear=${this.toYear}&fromMonth=${this.fromMonth}&toMonth=${this.toMonth}`)
+      this.http.get(
+          `GetWeather/${this.archiveName}/${this.index}?fromYear=${this.fromYear}&toYear=${this.toYear}&fromMonth=${
+          this.fromMonth}&toMonth=${this.toMonth}`)
         .subscribe((weather: Weather[]) => {
           this.weatherArr = [];
 
@@ -62,7 +64,7 @@ export class WeatherTableComponent implements OnInit {
 
             this.weatherArr.push(tmpWeather);
           }
-        })
+        });
     }
   }
 

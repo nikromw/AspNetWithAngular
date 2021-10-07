@@ -23,7 +23,7 @@ export class LoadFiles {
   }
 
   onSubmit(data) {
-    alert("Началась загрузка файлов.")
+    alert("Началась загрузка файлов.");
 
     for (var i = 0; i < this.selectedFile.length; i++) {
       const formData = new FormData();

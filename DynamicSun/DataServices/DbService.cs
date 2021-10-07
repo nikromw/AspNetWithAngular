@@ -4,9 +4,7 @@ using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DynamicSun
 {
@@ -21,18 +19,13 @@ namespace DynamicSun
 
         public List<string> GetArchives() => _weatherContext.Archives.Select(a => a.Name).ToList();
 
-        public List<Weather> GetWeatherByArchive(string archive)
-            => _weatherContext.Weathers.Where(w => w.ArchiveName == archive).ToList();
-
         public List<string> SaveWeatherInDb(IFormFile file, string archiveName)
         {
             List<string> returnVal = new List<string>();
 
             try
             {
-                XSSFWorkbook hssfwb;
-                hssfwb = new XSSFWorkbook(file.OpenReadStream());
-                int sheetNumber = hssfwb.NumberOfSheets;
+                XSSFWorkbook filestreamRead = new XSSFWorkbook(file.OpenReadStream());
 
                 if (_weatherContext.Archives.Any(a => a.Name == archiveName))
                 {
@@ -44,9 +37,9 @@ namespace DynamicSun
 
                     returnVal.Add($"Был загружен {archiveName}");
 
-                    for (int i = 0; i < sheetNumber; i++)
+                    for (int i = 0; i < filestreamRead.NumberOfSheets; i++)
                     {
-                        ISheet sheet = hssfwb.GetSheetAt(i);
+                        ISheet sheet = filestreamRead.GetSheetAt(i);
 
                         for (int row = 5; row <= sheet.LastRowNum; row++)
                         {
@@ -115,12 +108,22 @@ namespace DynamicSun
                                         ? ""
                                         : RowElements[11].StringCellValue;
 
+
+                                    Weather existingWeather = _weatherContext.Weathers
+                                        .Where(w => w.Date == weather.Date).FirstOrDefault();
+
+                                    if (existingWeather != null)
+                                        existingWeather = weather;
+
                                     weather.ArchiveName = archiveName;
 
                                     _weatherContext.Weathers.Add(weather);
                                 }
                             }
-                            catch(Exception) { }
+                            catch (Exception ex)
+                            {
+                                returnVal.Add($"При чтении возникла ошибка файл: {archiveName} страница:{i} строка:{row}.");
+                            }
 
                             _weatherContext.SaveChanges();
                         }
@@ -138,7 +141,7 @@ namespace DynamicSun
         public List<Weather> GetWeatherByFilter(List<string> archive, int index, int yearFrom, int yearTo, int monthFrom, int monthTo)
         {
             var weathers = _weatherContext
-                .Weathers
+                .Weathers.OrderBy(w => w.Date)
                 .Where(w => archive.Contains(w.ArchiveName)
                     && ((DateTime)w.Date).Year >= yearFrom
                     && ((DateTime)w.Date).Year <= yearTo
